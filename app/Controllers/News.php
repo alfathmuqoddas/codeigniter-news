@@ -9,21 +9,15 @@ class News extends Controller
 {
 	public function index()
 	{
-	    $model = new NewsModel();
 
-	    $data = [
-	        'news'  => $model->getNews(),
-	        'title' => 'News archive',
-	    ];
-
-	    echo view('templates/header', $data);
-	    echo view('news/overview', $data);
-	    echo view('templates/footer', $data);
+	    echo view('templates/header');
+	    echo view('news/overview');
+	    echo view('templates/footer');
 	}
 
-	public function view($slug = null)
+	public function view($slug)
 	{
-		$model = model(NewsModel::class);
+		$model = new NewsModel();
 		$data['news'] = $model -> getNews($slug);
 
 		if (empty($data['news'])) {
@@ -31,6 +25,7 @@ class News extends Controller
 		}
 
 		$data['title'] = $data['news']['title'];
+		$data['slug'] = $slug;
 
 		echo view('templates/header', $data);
 		echo view('news/view', $data);
@@ -39,7 +34,7 @@ class News extends Controller
 
 	public function create()
 	{
-	    $model = model(NewsModel::class);
+	    $model = new NewsModel();
 
 	    if ($this->request->getMethod() === 'post' && $this->validate([
 	        'title' => 'required|min_length[3]|max_length[255]',

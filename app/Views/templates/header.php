@@ -6,5 +6,5 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center my-4"><?= esc($title) ?></h1>
+    <h1 class="text-center my-4"></h1>
 </div>

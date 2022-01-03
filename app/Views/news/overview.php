@@ -1,15 +1,18 @@
 <div class="container">
-<h2><?= esc($title) ?></h2>
-<a href="/news/create">Create news</a>
-<?php if (! empty($news) && is_array($news)): ?>
-  <?php foreach ($news as $news_item): ?>
-  	<h3><?= esc($news_item['title']) ?></h3>
-  	<div class="main">
-  		<?= esc($news_item['body']) ?></div>
-  	<p><a href="/news/<?= esc($news_item['slug'], 'url') ?>">View article</a></p>
-  <?php endforeach; ?>
-<?php else: ?>
-	<h3>No News</h3>
-	<p>Unable to find any news for you.</p>
-<?php endif ?>
+<?php
+$db = \Config\Database::connect();
+$query   = $db->query('SELECT title, body, slug FROM news');
+$results = $query->getResult();
+
+foreach ($results as $row) {
+	echo "<div class='py-3'>";
+    echo "<h3>".$row->title."</h3>";
+    echo $row->body;
+    echo "<br/>";
+    echo "<a href='/news/".$row->slug."'>View article</a>";
+    echo "</div>";
+}
+
+echo 'Total Results: ' . count($results);
+?>
 </div>
